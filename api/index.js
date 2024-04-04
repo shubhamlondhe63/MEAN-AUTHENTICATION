@@ -1,6 +1,9 @@
 import express from "express";
 import mongoose from "mongoose";
 import { connect } from "mongoose";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 
@@ -20,7 +23,7 @@ app.use("/", (req, res) => {
 
 const connectMongoDB = async () => {
   try {
-    await mongoose.connect("mongodb+srv://shubhamlondhe63:shubhamlondhe63@angularauth.dsv8mii.mongodb.net/?retryWrites=true&w=majority&appName=AngularAuth");
+    await mongoose.connect(`${process.env.MONGO_URL}`);
     console.log("Connected to MongoDB Atlas");
   } catch (error) {
     console.error("Error connecting to MongoDB:", error.message);
