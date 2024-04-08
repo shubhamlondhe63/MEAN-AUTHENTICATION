@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import { connect } from "mongoose";
 import dotenv from 'dotenv';
+import roleRoute from "./routes/Role.js";
 
 dotenv.config();
 
@@ -31,6 +32,8 @@ const connectMongoDB = async () => {
     process.exit(1);
   }
 };
+
+app.use('/api/role/create', roleRoute);
 
 app.listen(8800, () => {
   connectMongoDB();
