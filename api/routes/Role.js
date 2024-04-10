@@ -8,7 +8,7 @@ const router = express.Router();
 router.post("/create", async (req, res, next) => {
   try {
     if (req.body.role && req.body.role !== "") {
-      const newRole = new Role();
+      const newRole = new Role(req.body);
       await newRole.save();
       res.send("Role Created...");
     } else {
@@ -19,4 +19,15 @@ router.post("/create", async (req, res, next) => {
   }
 });
 
-export default router; 
+
+// Update role in DB
+
+router.put('/update', (req, res, next) => {
+  try {
+
+  } catch (error){
+
+  }
+});
+
+export default router;

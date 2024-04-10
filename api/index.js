@@ -1,30 +1,22 @@
 import express from "express";
 import mongoose from "mongoose";
-import { connect } from "mongoose";
 import dotenv from 'dotenv';
 import roleRoute from "./routes/Role.js";
 
+const app = express();
 dotenv.config();
 
-const app = express();
+app.use(express.json());
 
-app.use("/api/login", (req, res) => {
-  return res.send("Login is Success..");
-});
+app.use('/api/role', roleRoute);
 
-app.use("/api/register", (req, res) => {
-  return res.send("Registration is Success..");
-});
-
-app.use("/", (req, res) => {
-  return res.send("Hello , Welcome to Home");
-});
-
-// connect To Database
-
+// Connect to MongoDB
 const connectMongoDB = async () => {
   try {
-    await mongoose.connect(`${process.env.MONGO_URL}`);
+    await mongoose.connect(process.env.MONGO_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     console.log("Connected to MongoDB Atlas");
   } catch (error) {
     console.error("Error connecting to MongoDB:", error.message);
@@ -33,9 +25,17 @@ const connectMongoDB = async () => {
   }
 };
 
-app.use('/api/role/create', roleRoute);
+// Start the server after connecting to MongoDB
+const startServer = async () => {
+  try {
+    await connectMongoDB();
+    app.listen(8800, () => {
+      console.log("Server is running on port 8800");
+    });
+  } catch (error) {
+    console.error("Error starting server:", error.message);
+    process.exit(1);
+  }
+};
 
-app.listen(8800, () => {
-  connectMongoDB();
-  console.log("Port is running on 8800");
-});
+startServer();
