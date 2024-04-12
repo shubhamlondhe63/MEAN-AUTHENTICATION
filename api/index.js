@@ -10,7 +10,7 @@ dotenv.config();
 app.use(express.json());
 
 app.use('/api/role', roleRoute);
-app.use('api/auth', authRoute);
+app.use('/api/auth', authRoute);
 
 // Connect to MongoDB
 const connectMongoDB = async () => {
